@@ -11,15 +11,23 @@ tb = truthbrush.Api(
 
 count = 1
 
+queries: ["Donald Trump", "the", "cricket", "election", "is", "Drake", "Toby",
+          "Jose", "court", "for", "today", "U.S", "United", "america", "breaking"]
 
-@app.get("/")
+@app.get("/ping")
+def ping():
+    return JSONResponse(status_code=200, content=jsonable_encoder({"message": f"Woke up service"}), media_type="application/json")
+
+@app.get("/run")
 def start_brush():
     global count
-    JSONResponse(status_code=200, content=jsonable_encoder({"message": f"Truthsocial extraction started"}), media_type="application/json")
-    response = tb.search(searchtype="statuses", query="the", limit=40)
-    for r in response:
-        posts = r['statuses']
-        sorted_list = sorted(posts, key=lambda x: x['created_at'])
-        for post in sorted_list:
-            print(f"{count}: {post['id']}")
-            count = count+1
+    for query in queries:
+        response = tb.search(searchtype="statuses", query=query, limit=40)
+        for r in response:
+            posts = r['statuses']
+            sorted_list = sorted(posts, key=lambda x: x['created_at'])
+            if len(sorted_list) == 0:
+                break
+            for post in sorted_list:
+                print(f"{count}: {post['id']}")
+                count = count+1
