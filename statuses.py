@@ -11,7 +11,7 @@ tb = truthbrush.Api(
 
 count = 1
 
-queries: ["Donald Trump", "the", "cricket", "election", "is", "Drake", "Toby",
+queries= ["Donald Trump", "the", "cricket", "election", "is", "Drake", "Toby",
           "Jose", "court", "for", "today", "U.S", "United", "america", "breaking"]
 
 @app.get("/ping")
